@@ -5,7 +5,6 @@ from utils import get_df, table_to_html, send_email, get_json_s3, save_json_s3
 
 url = 'https://bellaria-zuerich.ch/angebot/'
 
-
 def lambda_handler(event, context):
 
     df = get_df(url)
@@ -21,6 +20,8 @@ def lambda_handler(event, context):
         }
 
     elif df == []:
+        save_json_s3(df,'Flat_Available.json')
+
         return {
             'statusCode': 200,
             'body': json.dumps('Success - No Flats (3.5/Attika) Available At the moment!'),
@@ -29,8 +30,6 @@ def lambda_handler(event, context):
             'new_list' :df,
             'previous_list' :previous_df,
         }
-
-        save_json_s3(df,'Flat_Available.json')
 
     else:
         html_table = table_to_html(df)

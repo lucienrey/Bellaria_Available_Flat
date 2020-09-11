@@ -69,8 +69,8 @@ def table_to_html(jsonlist):
 def send_email(subject, html_message, url):
     try:
         recipients = [os.environ.get('EMAIL_ADDRESS')] 
-        #emaillist = ['lucienrey@hotmail.com','evgenia.gupalova@gmail.com'] 
-        emaillist = ['lucienrey@hotmail.com']  
+        emaillist = ['lucienrey@hotmail.com','evgenia.gupalova@gmail.com'] 
+        #emaillist = ['lucienrey@hotmail.com']  
         msg = MIMEMultipart()
         msg['Subject'] = "Your Subject"
         msg['From'] = str(os.environ.get('EMAIL_ADDRESS'))
