@@ -1,6 +1,10 @@
 import json
 import os
 
+import logging
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
 from utils import get_df, table_to_html, send_email, get_json_s3, save_json_s3
 
 url = 'https://bellaria-zuerich.ch/angebot/'
@@ -10,6 +14,9 @@ def lambda_handler(event, context):
     df = get_df(url)
     previous_df = get_json_s3('Flat_Available.json')
     if df == previous_df:
+        logger.info('Success - No Changes on The Website.')
+        logger.info('save_newfile:False')
+        logger.info('send_email:False')
         return {
             'statusCode': 200,
             'body': json.dumps('Success - No Changes on The Website.'),
@@ -22,6 +29,9 @@ def lambda_handler(event, context):
     elif df == []:
         save_json_s3(df,'Flat_Available.json')
 
+        logger.info('Success - No Flats (3.5/Attika) Available At the moment!')
+        logger.info('save_newfile:True')
+        logger.info('send_email:False')
         return {
             'statusCode': 200,
             'body': json.dumps('Success - No Flats (3.5/Attika) Available At the moment!'),
@@ -30,6 +40,7 @@ def lambda_handler(event, context):
             'new_list' :df,
             'previous_list' :previous_df,
         }
+
 
     else:
         html_table = table_to_html(df)
@@ -52,6 +63,9 @@ def lambda_handler(event, context):
 
         save_json_s3(df,'Flat_Available.json')
 
+        logger.info('Success - New Flats -  Email Sent to User')
+        logger.info('save_newfile:True')
+        logger.info('send_email:True')
         return {
             'statusCode': 200,
             'body': json.dumps('Success - New Flats -  Email Sent to User'),
@@ -60,4 +74,4 @@ def lambda_handler(event, context):
             'new_list' :df,
             'previous_list' :previous_df,
         }
-
+        
