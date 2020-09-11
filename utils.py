@@ -32,7 +32,7 @@ def get_df(url):
             
         final_list = []
         for i in flat_info:
-            if (i['size'] == '3.5') | (i['size'] == 'Attika'):
+            if (i['size'] == '3.5') | (i['size'] == '2.5'):
                 final_list.append(i)
         df = final_list
 
