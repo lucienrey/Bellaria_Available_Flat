@@ -1,6 +1,5 @@
 # Bellaria Available Flat Script
 - will check if any availability on bellaria project zurich
-- use sendgrid package
 
 \\ install on Amazon lambda deployment
 
