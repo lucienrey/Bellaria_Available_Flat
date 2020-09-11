@@ -15,6 +15,7 @@ def lambda_handler(event, context):
             'statusCode': 200,
             'body': json.dumps('Success - No Changes on The Website.'),
             'save_newfile' : False,
+            'send_email' : False,
             'new_list' :df,
             'previous_list' :previous_df,
         }
@@ -24,6 +25,7 @@ def lambda_handler(event, context):
             'statusCode': 200,
             'body': json.dumps('Success - No Flats (3.5/Attika) Available At the moment!'),
             'save_newfile' : True,
+            'send_email' : False,
             'new_list' :df,
             'previous_list' :previous_df,
         }
@@ -55,6 +57,7 @@ def lambda_handler(event, context):
             'statusCode': 200,
             'body': json.dumps('Success - New Flats -  Email Sent to User'),
             'save_newfile' : False,
+            'send_email' : True,
             'new_list' :df,
             'previous_list' :previous_df,
         }
