@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import requests
 import os
 import json
-
+import boto3
 
 def get_df(url):
     page = requests.get(url)
@@ -32,7 +32,7 @@ def get_df(url):
             
         final_list = []
         for i in flat_info:
-            if i['size'] == '4.5':
+            if (i['size'] == '4.5') | (i['size'] == 'Attika'):
                 final_list.append(i)
         df = final_list
 
@@ -86,3 +86,31 @@ def send_email(subject, html_message, url):
         print('Success: Email Sent to Users.')
     except:
         print('Error: Email Not Sent')
+    
+def get_json_s3(filename):
+    s3 = boto3.client('s3')
+    bucket = 'flatbucket-lucienrey'
+    key = filename
+
+    response = s3.get_object(
+        Bucket=bucket, 
+        Key=key)
+    content = response['Body']
+    jsonObject = json.loads(content.read())
+
+    return jsonObject
+
+def save_json_s3(data, filename):
+    s3 = boto3.client('s3')
+    bucket = 'flatbucket-lucienrey'
+    key = filename
+
+    response = s3.put_object(
+        Bucket=bucket, 
+        Key=key, 
+        Body=json.dumps(data), 
+        ContentType='application/json',)
+
+    return response
+
+
